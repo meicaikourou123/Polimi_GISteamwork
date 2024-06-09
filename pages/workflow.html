@@ -1,0 +1,350 @@
+<!DOCTYPE HTML>
+<!--
+	Twenty by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Tirano</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+		<link rel="stylesheet" href="../assets/css/main.css" />
+		<link rel="stylesheet" href="../assets/css/custom-styles.css" />
+		<link rel="stylesheet" href="../assets/css/image.css" />
+	</head>
+	<body class="left-sidebar is-preload">
+		<div id="page-wrapper">
+
+			<div id="header">
+
+					<!-- Inner -->
+						<div class="inner">
+							<header>
+								<h1><a href="../index.html" id="logo">Tirano</a></h1>
+							</header>
+						</div>
+
+					<!-- Nav -->
+					<nav id="nav">
+						<ul>
+							<li><a href="../index.html">Home</a></li>
+							<li><a href="workflow.html">Workflow</a></li>
+							<li><a href="results.html">Results</a></li>
+							<li><a href="webgis.html">WebGIS</a></li>
+						</ul>
+					</nav>
+
+				</div>
+			<!-- Main -->
+				<div class="wrapper style1">
+
+					<div class="container">
+						<article id="main" class="special">
+							<header>
+								<h2>Workflow</h2>
+								<p>
+								The analysis of landslide susceptibility involved different factors of environment for the raw data, we need to process them in professional ways based on the GIS theory.
+									<br>
+									Here is the study area of our group
+									<br>
+									<a href="../images/study%20area.png" ><img src="../images/study%20area.png" class="col-md-8" style="width: 50%"></a>
+									<br>
+								Here are the data process workflow diagram.
+
+								<br>
+								<a href="../images/lab%20workflow%202.jpg"><img src="../images/lab%20workflow%202.jpg" class="col-md-8" style="width: 50%; border: 2px solid grey"></a>
+								<br><br>
+								</p>
+							</header>
+							<article>
+								<header>
+									<h2>Preprocessing data</h2>
+									<p>
+										<b>Data preparation:</b> DTM, DUSAF, population distribution, NDVI, vector layers: roads, rivers, faults buffer and landslide inventory.
+
+									</p>
+								</header>
+								<h3>
+									Step 1: data coordination
+								</h3>
+								<p>
+									1. Reproject layers to EPSG:32632. <br>
+									2. Resample layers according to DTM resolution. <br>
+									3. Clip all layers <br>
+									4. Rasterize all vector layers except the landslide inventory layer.
+								</p>
+								<ul>
+										<div style="display: flex; gap: 0.2px;">
+											<a href="../images/DTM.png" ><img id="DTM" src="../images/DTM.png" alt=""  style="width: 70%;"/></a>
+											<a href="../images/NDVI.png"><img src="../images/NDVI.png" alt=""  style="width: 70%;"/></a>
+											<a href="../images/DUSAF.png"><img src="../images/DUSAF.png" alt=""  style="width: 70%;"/></a>
+										</div>
+											<div style="display: flex; gap: 0.2px;">
+												<a href="../images/river_buffer.png"><img src="../images/river_buffer.png" alt=""  style="width: 70%;"/></a>
+												<a href="../images/road_buffer.png" ><img src="../images/road_buffer.png" alt="" style="width: 70%;"/></a>
+												<a href="../images/fault_buffer.png"><img src="../images/fault_buffer.png" alt="" style="width: 70%;"/></a>
+											</div>
+										</ul>
+								<p align="justify">
+									<span><i class="fa fa-arrow-circle-right"></i></span>
+									DTM: Digital Terrain Model: It is a digital representation of the Earth's surface, showing the elevation or height values of the terrain. We can extract other geographic information from this layer.
+								</p>
+								<p align="justify">
+									<span><i class="fa fa-arrow-circle-right"></i></span>
+									NDVI:Normalized Difference Vegetation Index. It is a widely used index in GIS and remote sensing to assess and analyze vegetation health and vigor. NDVI is calculated using the reflectance values of near-infrared (NIR) and red light bands captured by remote sensing sensors.
+The formula for calculating NDVI is as follows:
+<code>NDVI = (NIR - Red) / (NIR + Red)</code>
+								</p>
+
+								<p align="justify">
+									<span><i class="fa fa-arrow-circle-right"></i></span>
+									Buffer layer of rivers, roads, faults. Buffer is essentially a zone of influence or a distance-based boundary that surrounds a feature. It is created by measuring a specified distance around the feature and generating a new geometry that represents the buffer area.
+								</p>
+
+								<p align="justify">
+									<span><i class="fa fa-arrow-circle-right"></i></span>
+DUSAF: Land Use Designation for Agricultural and Forestry Soils. It represents a classification system used in Italy to categorize and manage land based on its intended use for agricultural and forestry purposes.
+								</p>
+
+								<p align="justify">
+									<span><i class="fa fa-arrow-circle-right"></i></span>
+Landslide inventory: A systematic collection and documentation of information about landslides that have occurred within a specific area or region. It involves the compilation of data on the location, characteristics, and impact of landslides for the purpose of analysis, assessment, and management of landslide hazards. 								</p>
+
+
+							</article>
+							<article>
+								<h3>
+									Step 2: layer extraction
+								</h3>
+								<p>
+									Extract factors from the DTM (Aspect, Slope angle, Plan and profile curvatures extraction).
+									<ul><br>
+										<div style="display: flex; gap: 0.2px;">
+												<a href="../images/aspect.png" ><img src="../images/aspect.png" alt=""  style="width: 70%;"/></a>
+												<a href="../images/slope.png"><img src="../images/slope.png" alt=""  style="width: 70%;"/></a>
+											</div>
+											<div style="display: flex; gap: 0.2px;">
+													<a href="../images/plan.png"><img src="../images/plan.png" alt=""  style="width: 70%;"/></a>
+													<a href="../images/profile.png" ><img src="../images/profile.png" alt="" style="width: 70%;"/></a>
+											</div>
+										</ul>
+								</p>
+							</article>
+
+							<article>
+								<h3>
+									Step 3: define and filter NLS area
+								</h3>
+								<p>
+									Depending on the slope angle, use raster calculator to filter out the areas probably not landslide
+																		<br>
+									(
+									<code>
+										"slope@1" &lt; 20 OR "slope@1" &gt; 70
+									</code>
+									) and very small areas(threshold is 100pixels), remove NLS areas that overlap with Landslide inventory layer.
+								</p>
+									<div style="display: flex; gap: 0.2px;">
+													<a href="../images/NLS_area.png"><img src="../images/NLS_area.png" alt=""  style="width: 50%;"/></a>
+									</div>
+								<br>
+							</article>
+
+							<section>
+								<header>
+									<h3><b>Training and test data generation</b></h3>
+									<article>
+										<h3>
+											Step 1: assign value
+										</h3>
+										<p>
+											Create attribute “Hazard” and assign 1 to the NLZ and 2 to the Landslide Inventory
+										</p>
+									</article>
+									<article>
+										<h3>
+											Step 2: data generation and labelling
+										</h3>
+										<p>
+
+Generation 1000 data points and set training data and test data ratio as 7/3, in which have same number of hazard=1 and hazard=2.
+										</p>
+										<!-- On rows -->
+											<table class="table-primary">
+										  <thead>
+											<tr>
+												<th scope="col"><b>Train_test</b></th>
+												<th scope="col"><b>Hazard</b></th>
+												<th scope="col"><b>Number of points</b></th>
+											</tr>
+										  </thead>
+										  <tbody>
+											<tr>
+											  <td>Training</td>
+											  <td>1</td>
+											  <td>350</td>
+											</tr>
+											<tr>
+											  <td>Training</td>
+											  <td>2</td>
+											  <td>350</td>
+											</tr>
+											<tr>
+											  <td>Testing</td>
+											  <td>1</td>
+											  <td>150</td>
+											</tr>
+										  <tr>
+											  <td>Testing</td>
+											  <td>2</td>
+											  <td>150</td>
+											</tr>
+										  </tbody>
+										</table>
+										<div style="display: flex; gap: 0.2px;">
+												<a href="../images/training_test_samples.png" ><img src="../images/training_test_samples.png" alt=""  style="width: 50%;"/></a>
+											</div>
+									</article>
+								</header>
+
+							</section>
+
+							<section>
+								<header>
+									<h3><b>Susceptibility map generation</b></h3>
+									<article>
+										<h3>
+											Step 1: combine all environmental layer
+										</h3>
+										<p>
+											Build virtual raster in order to take all environmental layers into assessment.
+										</p>
+									</article>
+									<article>
+										<h3>
+											Step 2: generate classification and confidence layer
+										</h3>
+										<p>
+											In Dzetsaka classification tool considering Virtual layer, trainingSamplePoints and “Hazard” to implement random forest.
+										</p>
+										<!-- On rows -->
+									</article>
+									<article>
+										<h3>
+											Step 3: extract susceptibility map
+										</h3>
+										<p>
+											Extract susceptibility map from classification and confidence layer by raster calculator.
+										</p>
+										<code>
+											("classification@1"= 2 ) * "confidence@1" + ( "classification@1"= 1 ) * (100 - "confidence@1")
+										</code>
+										<ul style="padding-top: 30px">
+										<div style="display: flex; gap: 0.2px;">
+												<a href="../images/susceptibilityMap_original.png" ><img src="../images/susceptibilityMap_original.png" alt=""  style="width: 50%;"/></a>
+											</div>
+										</ul>
+									</article>
+									<article>
+										<h3>
+											Step 4: result validation
+										</h3>
+										<p>
+											Use script tool: Accuracy Assessment and Sampling to verify the result get the error matrix.
+										</p>
+										<!-- On rows -->
+									</article>
+								</header>
+
+							</section>
+
+									<section>
+								<header>
+									<h3><b>Exposure assessment</b></h3>
+									<article>
+										<h3>
+											Step 1: map reclassification
+										</h3>
+										<p>
+											Reclassify the susceptibility raster map using raster calculator.
+										</p>
+										<code>
+											[0, 0.25) = 1;<br> [0.25, 0.5) = 2;<br>[0.5, 0.75) = 3;<br> [0.75, 1] = 4;<br>
+										</code>
+									</article>
+									<br>
+									<article>
+										<h3>
+											Step 2: process needed layers
+										</h3>
+										<p>
+											Resample the reclassified susceptibility raster map and clip the population layer.
+										</p>
+										<div style="display: flex; gap: 0.2px;">
+											<a href="../images/susceptibility_reclassified_resampled.png"><img src="../images/susceptibility_reclassified_resampled.png" alt=""  style="width: 70%;"/></a>
+											<a href="../images/population.png"><img src="../images/population.png" alt=""  style="width: 70%;"/></a>
+										</div>
+										<!-- On rows -->
+									</article>
+									<article>
+										<h3>
+											Step 3: exposure assessment
+										</h3>
+										<p>
+											Compute the count of each susceptibility class and show them in a chart.
+										</p>
+										<p>
+											<h3><b>Development of WebGIS</b></h3>
+											The last step is to show our result on a WebGIS platform. Through some development tools we can publish all the geographic data at a webpage and understand the landslide susceptibility assessment in a convenient way with different base maps.
+										</p>
+										<p align="justify">
+											<br><b>Material: </b> Processed Raster layers, Processed Vector layers, Styles(SLD)
+											<br><b>Development Tool:</b> Vite, Node, Openlayers
+											<br><b>GIS Platform:</b> <a href="https://geoserver.org">Geoserver</a>, <a href="https://www.qgis.org/en/site/"> QGIS(Data processes and analyse)</a>
+											<br><b>Deployment Platform:</b> <a href="http://github.com">Github</a>
+
+										</p>
+									</article>
+										<a href="/pages/results.html" class="button btn-info">Results</a>
+								</header>
+
+							</section>
+						</article>
+					</div>
+				</div>
+
+			<!-- Footer -->
+			<div id="footer">
+				<div class="container">
+					<div class="row">
+						<div class="col-12">
+
+
+								<section class="contact">
+									<header>
+										<h3>Resource</h3>
+									</header>
+									<ul class="icons">
+										<li><a href="https://github.com/meicaikourou123/Polimi_GISteamwork.git" class="icon brands fa-github"><span class="label">Github</span></a></li>
+
+									</ul>
+								</section>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Scripts -->
+			<script src="/js/jquery.min.js"></script>
+			<script src="/js/jquery.dropotron.min.js"></script>
+			<script src="/js/jquery.scrolly.min.js"></script>
+			<script src="/js/jquery.scrollex.min.js"></script>
+			<script src="/js/browser.min.js"></script>
+			<script src="/js/breakpoints.min.js"></script>
+			<script src="/js/util.js"></script>
+			<script src="/js/main.js"></script>
+
+	</body>
+</html>

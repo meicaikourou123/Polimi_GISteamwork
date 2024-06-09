@@ -11,6 +11,8 @@ import LayerSwitcher from 'ol-layerswitcher';
 import { createStringXY } from 'ol/coordinate';
 import { Style, Stroke } from 'ol/style';
 import VectorLayer from 'ol/layer/Vector';
+import LayerGroup from "ol/layer/Group";
+import TileLayer from "ol/layer/Tile";
 
 let osm = new Tile({
     type: "base",
@@ -18,63 +20,216 @@ let osm = new Tile({
     visible: true,
     source: new OSM()
 });
-let colombiaBoundary = new Image({
-    title: "Colombia Administrative level 0",
-    source: new ImageWMS({
-        url: 'https://www.gis-geoserver.polimi.it/geoserver/wms',
-        params: { 'LAYERS': 'gis:COL_adm0', 'STYLES': 'restricted' }
-    })
-});
-var colombiaDepartments = new Image({
-    title: "Colombia Administrative level 1",
-    source: new ImageWMS({
-        url: 'https://www.gis-geoserver.polimi.it/geoserver/wms',
-        params: { 'LAYERS': 'gis:COL_adm1' }
-    }),
-    opacity: 0.5
-});
-
-var colombiaRoads = new Image({
-    title: "Colombia Roads",
-    source: new ImageWMS({
-        url: 'https://www.gis-geoserver.polimi.it/geoserver/wms',
-        params: { 'LAYERS': 'gis:COL_roads' }
-    }),
-    visible: false
-});
-var colombiaRivers = new Image({
-    title: "Colombia Rivers",
-    source: new ImageWMS({
-        url: 'https://www.gis-geoserver.polimi.it/geoserver/wms',
-        params: { 'LAYERS': 'gis:COL_rivers' }
-    }),
-    minResolution: 1000,
-    maxResolution: 5000
-});
-
 //Create the layer groups and add the layers to them
 let basemapLayers = new Group({
     title: "Base Maps",
     layers: [osm]
 })
 
-let overlayLayers = new Group({
-    title: "Overlay Layers",
-    layers: [
-        colombiaBoundary, 
-        colombiaDepartments, 
-        colombiaRivers, 
-        colombiaRoads
-    ]
+var roads = new Image({
+    title: "Roads Buffer",
+    source: new ImageWMS({
+        url: 'https://www.gis-geoserver.polimi.it/geoserver/wms',
+        params: { 'LAYERS': 'gisgeoserver_19:road_raster' }
+    })
+});
+var rivers = new Image({
+    title: "Rivers Buffer",
+    source: new ImageWMS({
+        url: 'https://www.gis-geoserver.polimi.it/geoserver/wms',
+        params: { 'LAYERS': 'gisgeoserver_19:river_raster' }
+    })
+});
+
+var faults = new Image({
+    title: "Faults Buffer",
+    source: new ImageWMS({
+        url: 'https://www.gis-geoserver.polimi.it/geoserver/wms',
+        params: { 'LAYERS': 'gisgeoserver_19:fault_raster' }
+    })
+});
+
+var ndvi = new Image({
+    title: "NDVI",
+    source: new ImageWMS({
+        url: 'https://www.gis-geoserver.polimi.it/geoserver/wms',
+        params: { 'LAYERS': 'gisgeoserver_19:ndvi' }
+    })
+});
+
+var dtm = new Image({
+    title: "DTM",
+    source: new ImageWMS({
+        url: 'https://www.gis-geoserver.polimi.it/geoserver/wms',
+        params: { 'LAYERS': 'gisgeoserver_19:dtm' }
+    })
+});
+
+var dusaf = new Image({
+    title: "DUSAF",
+    source: new ImageWMS({
+        url: 'https://www.gis-geoserver.polimi.it/geoserver/wms',
+        params: { 'LAYERS': 'gisgeoserver_19:dusaf' }
+    })
+});
+
+var ls = new Image({
+    title: "LS",
+    source: new ImageWMS({
+        url: 'https://www.gis-geoserver.polimi.it/geoserver/wms',
+        params: { 'LAYERS': 'gisgeoserver_19:LS' }
+    })
+});
+
+var area = new Image({
+    title: "Group 1 Area",
+    source: new ImageWMS({
+        url: 'https://www.gis-geoserver.polimi.it/geoserver/wms',
+        params: { 'LAYERS': 'gisgeoserver_19:group1' }
+    })
+});
+
+var nlz = new Image({
+    title: "NoLS",
+    source: new ImageWMS({
+        url: 'https://www.gis-geoserver.polimi.it/geoserver/wms',
+        params: { 'LAYERS': 'gisgeoserver_19:nlz' }
+    })
+});
+
+var dtLayers = [
+        roads,
+        rivers,
+        faults,
+        ndvi,
+        dtm,
+        dusaf,
+        ls,
+        area,
+        nlz
+    ];
+
+dtLayers.forEach((layer) => {
+    layer.setVisible(false)
 })
+
+area.setVisible(true);
+
+let dataLayers = new Group({
+    title: "Data Layers",
+    layers: dtLayers
+})
+
+var susc = new Image({
+    title: "Aspect",
+    source: new ImageWMS({
+        url: 'https://www.gis-geoserver.polimi.it/geoserver/wms',
+        params: { 'LAYERS': 'gisgeoserver_19:aspect' }
+    })
+});
+
+var aspect = new Image({
+    title: "Aspect",
+    source: new ImageWMS({
+        url: 'https://www.gis-geoserver.polimi.it/geoserver/wms',
+        params: { 'LAYERS': 'gisgeoserver_19:aspect' },
+        ratio: 1,
+        serverType: 'geoserver'
+    }),
+    opacity: 1
+});
+
+var slope = new Image({
+    title: "Slope",
+    source: new ImageWMS({
+        url: 'https://www.gis-geoserver.polimi.it/geoserver/wms',
+        params: { 'LAYERS': 'gisgeoserver_19:slope' },
+        opacity:1
+    })
+});
+
+var profile = new Image({
+    title: "Profile",
+    source: new ImageWMS({
+        url: 'https://www.gis-geoserver.polimi.it/geoserver/wms',
+        params: { 'LAYERS': 'gisgeoserver_19:profile' },
+        opacity:1
+    })
+});
+
+var plan = new Image({
+    title: "Plan",
+    source: new ImageWMS({
+        url: 'https://www.gis-geoserver.polimi.it/geoserver/wms',
+        params: { 'LAYERS': 'gisgeoserver_19:plan' },
+        opacity:1
+    })
+});
+
+var training = new Image({
+    title: "Training",
+    source: new ImageWMS({
+        url: 'https://www.gis-geoserver.polimi.it/geoserver/wms',
+        params: { 'LAYERS': 'gisgeoserver_19:trainingPointsSampled' },
+        opacity:1
+    })
+});
+
+var testing = new Image({
+    title: "Testing",
+    source: new ImageWMS({
+        url: 'https://www.gis-geoserver.polimi.it/geoserver/wms',
+        params: { 'LAYERS': 'gisgeoserver_19:testingPointsSampled' },
+        opacity:1
+    })
+});
+
+var population = new Image({
+    title: "Population",
+    source: new ImageWMS({
+        url: 'https://www.gis-geoserver.polimi.it/geoserver/wms',
+        params: { 'LAYERS': 'gisgeoserver_19:population' },
+        opacity: 1,
+    })
+});
+
+var susceptibilityReclass = new Image({
+    title: "LSSusceptibility Reclass,Resamlped",
+    source: new ImageWMS({
+        url: 'https://www.gis-geoserver.polimi.it/geoserver/wms',
+        params: { 'LAYERS': 'gisgeoserver_19:LandslideSusceptibilityMap_reclass_resamlped' },
+        opacity: 1,
+    })
+})
+
+var cmpLayers = [
+        aspect,
+        slope,
+        profile,
+        plan,
+        training,
+        population,
+        testing,
+        susceptibilityReclass
+    ];
+
+cmpLayers.forEach((layer) =>
+    layer.setVisible(false)
+)
+
+let computedLayers = new Group({
+    title: "Computed Layers",
+    layers: cmpLayers
+})
+
 
 // Map Initialization
 let map = new Map({
     target: document.getElementById('map'),
-    layers: [basemapLayers, overlayLayers],
+    layers: [basemapLayers, computedLayers, dataLayers],
     view: new View({
-        center: fromLonLat([-74, 4.6]),
-        zoom: 5
+        center: fromLonLat([10.1667, 46.2167]),
+        zoom: 12
     })
 });
 
@@ -83,38 +238,59 @@ map.addControl(new ScaleLine());
 map.addControl(new FullScreen());
 map.addControl(new MousePosition({
     coordinateFormat: createStringXY(4),
-    projection: 'EPSG:4326',
+    projection: 'EPSG:32632',
     className: 'custom-control',
     placeholder: '0.0000, 0.0000'
 }));
 
 let layerSwitcher = new LayerSwitcher({});
-map.addControl(layerSwitcher);
 
+map.addControl(layerSwitcher)
+
+function createOpacitySlider(layer) {
+  var layerTitle = layer.get('title');
+  var sliderId = layerTitle.replace(/\s+/g, '-') + '-opacity';
+  var controlContainer = document.getElementById('opacity-control');
+  var controlDiv = document.createElement('div');
+  controlDiv.innerHTML = `
+    <label for="${sliderId}">${layerTitle}</label>
+    <input type="range" id="${sliderId}" class="opacity-slider" min="0" max="1" step="0.1" value="${layer.getOpacity()}">
+  `;
+  controlContainer.appendChild(controlDiv);
+
+  // Обработка события изменения значения слайдера
+  var slider = document.getElementById(sliderId);
+  slider.addEventListener('input', function() {
+    var opacity = parseFloat(this.value);
+    layer.setOpacity(opacity);
+  });
+}
+
+// Добавление слайдеров для всех слоев
+map.getLayers().forEach(function(layerGroup) {
+  if (layerGroup instanceof LayerGroup) {
+    layerGroup.getLayers().forEach(function(layer) {
+      createOpacitySlider(layer);
+    });
+  } else {
+    createOpacitySlider(layerGroup);
+  }
+});
 
 //OPTIONAL
 //Add the Bing Maps layers
 var BING_MAPS_KEY = "AqbDxABFot3cmpxfshRqLmg8UTuPv_bg69Ej3d5AkGmjaJy_w5eFSSbOzoHeN2_H";
-var bingRoads = new Tile({
-    title: 'Bing Maps—Roads',
+var aerialWithLabelsOnDemand = new Tile({
+    title: 'Bing Maps—AerialWithLabelsOnDemand',
     type: 'base',
     visible: false,
     source: new BingMaps({
         key: BING_MAPS_KEY,
-        imagerySet: 'Road'
+        imagerySet: 'AerialWithLabelsOnDemand'
     })
 });
 
-var bingAerial = new Tile({
-    title: 'Bing Maps—Aerial',
-    type: 'base',
-    visible: false,
-    source: new BingMaps({
-        key: BING_MAPS_KEY,
-        imagerySet: 'Aerial'
-    })
-});
-basemapLayers.getLayers().extend([bingRoads, bingAerial]);
+basemapLayers.getLayers().extend([aerialWithLabelsOnDemand]);
 
 //Add the Stadia Maps layers
 var stadiaWatercolor = new Tile({
@@ -133,50 +309,17 @@ var stadiaToner = new Tile({
         layer: 'stamen_toner'
     })
 })
-//basemapLayers.addLayer(stadiaWatercolor);
-basemapLayers.getLayers().extend([stadiaWatercolor, stadiaToner]);
-
-//Add the WFS layer
-let wfsSource = new VectorSource()
-let wfsLayer = new Vector({
-    title: "Colombia water areas",
-    source: wfsSource,
-
-    style: new Style({
-        stroke: new Stroke({
-            color: 'rgb(255, 102, 102)',
-            width: 4
-        })
-    }),
-    zIndex: 9999
-});
-overlayLayers.getLayers().extend([wfsLayer]);
-
-// This allows to use the function in a callback!
-function loadFeatures(response) {
-    wfsSource.addFeatures(new GeoJSON().readFeatures(response))
-}
-// This is not a good practice, but works for the jsonp.
-window.loadFeatures = loadFeatures;
-
-
-var base_url = "https://www.gis-geoserver.polimi.it/geoserver/gis/ows?";
-var wfs_url = base_url;
-wfs_url += "service=WFS&"
-wfs_url += "version=2.0.0&"
-wfs_url += "request=GetFeature&"
-wfs_url += "typeName=gis%3ACOL_water_areas&"
-wfs_url += "outputFormat=text%2Fjavascript&"
-wfs_url += "srsname=EPSG:3857&"
-wfs_url += "format_options=callback:loadFeatures"
-
-console.log(wfs_url);
-
-map.once('postrender', (event) => {
-    // Load the WFS layer
-    $.ajax({ url: wfs_url, dataType: 'jsonp' });
-    
+var stadiaSmoothDark = new Tile({
+    title: "Stadia Smooth Dark",
+    type: "base",
+    visible: false,
+    source: new StadiaMaps({
+        layer: 'alidade_smooth_dark'
+    })
 })
+
+
+basemapLayers.getLayers().extend([stadiaWatercolor, stadiaToner, stadiaSmoothDark]);
 
 //Add the code for the Pop-up
 var container = document.getElementById('popup');
@@ -188,56 +331,11 @@ var popup = new Overlay({
 });
 map.addOverlay(popup);
 
-// The click event handler for closing the popup.
-// This ensures that JQuery ($) is already available in the page.
-$(document).ready(function () {
-    map.on('singleclick', function (event) {
-        //This iterates over all the features that are located on the pixel of the click (can be many)
-        var feature = map.forEachFeatureAtPixel(event.pixel, function (feature, layer) {
-            return feature;
-        });
-
-        //If there is a feature, open the popup by setting a position to it and put the data from the feature
-        if (feature != null) {
-            var pixel = event.pixel;
-            var coord = map.getCoordinateFromPixel(pixel);
-            popup.setPosition(coord);
-            content.innerHTML =
-                '<h5>Colombia Water Areas</h5><br><b>Name: </b>' +
-                feature.get('NAME') +
-                '</br><b>Description: </b>' +
-                feature.get('HYC_DESCRI');
-        } else {
-            //Only if the colombiaRoads layer is visible, do the GetFeatureInfo request
-            if (colombiaRoads.getVisible()) {
-                var viewResolution = (map.getView().getResolution());
-                var url = colombiaRoads.getSource().getFeatureInfoUrl(event.coordinate, viewResolution, 'EPSG:3857', { 'INFO_FORMAT': 'text/html' });
-                console.log(url);
-
-                if (url) {
-                    var pixel = event.pixel;
-                    var coord = map.getCoordinateFromPixel(pixel);
-                    popup.setPosition(coord);
-                    //We do again the AJAX request to get the data from the GetFeatureInfo request
-                    $.ajax({ url: url })
-                        .done((data) => {
-                            //Put the data of the GetFeatureInfo response inside the pop-up
-                            //The data that arrives is in HTML
-                            content.innerHTML = data;
-                        });
-                }
-            }
-        }
-    });
-});
-
-
-
 // Adding map event for pointermove
 // The click event handler for closing the popup.
 closer.onclick = function () {
     popup.setPosition(undefined);
-    closer.blur(); 
+    closer.blur();
     return false;
 };
 
@@ -250,3 +348,15 @@ map.on('pointermove', function(event){
 map.on('moveend', function(event){
     console.log("moved map");
 });
+
+function toggleOpacityControl() {
+  var opacityControl = document.getElementById('opacity-control');
+  if (opacityControl.style.display === 'none') {
+    opacityControl.style.display = 'block';
+  } else {
+    opacityControl.style.display = 'none';
+  }
+}
+
+var toggleButton = document.getElementById('opacity-button');
+toggleButton.addEventListener('click', toggleOpacityControl);
